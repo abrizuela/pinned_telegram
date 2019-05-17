@@ -7,7 +7,7 @@
 
   "manifest_version": 2,
   "name": "Pinned Telegram",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Go to the pinned Telegram tab. If it doesn't exist, it's created.",
 
   "icons": {
@@ -16,8 +16,7 @@
   },
   
   "permissions": [
-    "tabs",
-    "https://web.telegram.org/*"
+    "tabs"
   ],
 
   "browser_action": {
