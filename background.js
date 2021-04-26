@@ -1,5 +1,6 @@
 let currentTabId;
 let telegramTabId;
+let telegramWinId;
 let previousTab;
 
 function onError(e) {
@@ -29,13 +30,16 @@ function handleSearch(telegramTabs) {
   if(telegramTabs.length > 0) {
     //console.log("there is a telegram tab");
     telegramTabId = telegramTabs[0].id;
+    telegramWinId = telegramTabs[0].windowId;
     if(telegramTabId === currentTabId) {
       //console.log("I'm in the telegram tab");
       browser.tabs.update(previousTab, {active: true,});
+      browser.windows.update(telegramWinId, {focused:true,});
     } else {
       //console.log("I'm NOT in the telegram tab");
       previousTab = currentTabId;
       browser.tabs.update(telegramTabId, {active: true,});
+      browser.windows.update(telegramWinId, {focused:true,});
     }
     setButtonIcon(telegramTabs[0].favIconUrl);
   } else {
