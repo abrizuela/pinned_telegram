@@ -4,6 +4,7 @@ let telegramTabId;
 let telegramWinId;
 let previousTab;
 let previousWin;
+let telegramUrlStored;
 
 function onError(e) {
     console.log("***Error: " + e);
@@ -20,7 +21,7 @@ function setButtonIcon(imageURL) {
 function createPinnedTab() {
     browser.tabs.create(
         {
-            url: "https://web.telegram.org",
+            url: telegramUrlStored,
             pinned: true,
             active: true
         }
@@ -53,12 +54,22 @@ function handleSearch(telegramTabs) {
     }
 };
 
+function onGot(restoredSettings) {
+    if (restoredSettings.telegramUrl != undefined) {
+        telegramUrlStored = restoredSettings.telegramUrl;
+    } else {
+        telegramUrlStored = telegramUrl.WEB;
+    };
+    let querying = browser.tabs.query({ url: telegramUrlStored });
+    querying.then(handleSearch, onError);
+};
+
 function handleClick(tab) {
     //console.log("*********Button clicked*********");
     currentTabId = tab.id;
     currentWinId = tab.windowId;
-    var querying = browser.tabs.query({ url: "*://web.telegram.org/*" });
-    querying.then(handleSearch, onError);
+    var gettingStoredSettings = browser.storage.local.get();
+    gettingStoredSettings.then(onGot, onError);
 };
 
 function update(details) {
