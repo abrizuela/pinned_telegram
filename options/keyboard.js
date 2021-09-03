@@ -26,11 +26,11 @@ function captureKey(event) {
             modifiers.includes(shortcutKeys[1]) && event.keyCode >= 48 && event.keyCode <= 123 ? shortcutKeys.push(keyStr) : isValidShortcut = false;
             break
         default:
-            console.log(`****Invalid shortcut****`);
+            //console.log(`****Invalid shortcut****`);
             isValidShortcut = false;
             break;
     }
-    console.log(`startCaptureShortcut: key: ${event.key}, keycode: ${event.keyCode}, array: ${shortcutKeys}, lenght ${shortcutKeys.length}`);
+    //console.log(`startCaptureShortcut: key: ${event.key}, keycode: ${event.keyCode}, array: ${shortcutKeys}, lenght ${shortcutKeys.length}`);
 }
 
 function endCaptureShortcut() {
@@ -48,7 +48,7 @@ function endCaptureShortcut() {
                 isValidShortcut = false;
                 break
         }
-        console.log(`final value: ${shortcutValue}`);
+        //console.log(`final value: ${shortcutValue}`);
         shortcut.value = shortcutValue;
     } else {
         isValidShortcut = false;
