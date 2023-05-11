@@ -58,7 +58,7 @@ function onGot(restoredSettings) {
     if (restoredSettings.telegramUrl != undefined) {
         telegramUrlStored = restoredSettings.telegramUrl;
     } else {
-        telegramUrlStored = 'https://web.telegram.org/k/';
+        telegramUrlStored = 'https://web.telegram.org/';
     };
     let querying = browser.tabs.query({ url: telegramUrlStored });
     querying.then(handleSearch, onError);

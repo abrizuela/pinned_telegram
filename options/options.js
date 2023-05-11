@@ -10,9 +10,9 @@ const urlWebz = document.querySelector("#webz");
 const urlInputs = document.querySelectorAll("input[name='telegram_url']");
 /* enum */
 const telegramUrl = {
-    WEB: "https://web.telegram.org/k/", //if replace this also do it in function onGot in background.js
-    WEBK: "https://webk.telegram.org/",
-    WEBZ: "https://webz.telegram.org/"
+    WEB: "https://web.telegram.org/", //if replace this also do it in function onGot in background.js
+    WEBK: "https://web.telegram.org/k/",
+    WEBZ: "https://web.telegram.org/a/"
 };
 
 async function setUrl(restoredSettings) {
@@ -48,7 +48,7 @@ async function updateUI() {
     gettingStoredSettings.then(setUrl);
 }
 
-async function updateUIPageLoaded(){
+async function updateUIPageLoaded() {
     urlWeb.value = telegramUrl.WEB;
     urlWebk.value = telegramUrl.WEBK;
     urlWebz.value = telegramUrl.WEBZ;
