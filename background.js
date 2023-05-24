@@ -1,10 +1,10 @@
 let currentTabId;
 let currentWinId;
-let webpageTabId;
-let webpageWinId;
+let telegramTabId;
+let telegramWinId;
 let previousTab;
 let previousWin;
-let webpageUrlStored;
+let telegramUrlStored;
 
 function onError(e) {
     console.log("***Error: " + e);
@@ -21,55 +21,54 @@ function setButtonIcon(imageURL) {
 function createPinnedTab() {
     browser.tabs.create(
         {
-            url: webpageUrlStored,
+            url: telegramUrlStored,
             pinned: true,
             active: true
         }
     )
 };
 
-function handleSearch(webpageTabs) {
+function handleSearch(telegramTabs) {
     //console.log("currentTabId: " + currentTabId);
     //console.log("currentWinId: " + currentWinId);
-    if (webpageTabs.length > 0) {
-        //console.log("there is a webpage tab");
-        webpageTabId = webpageTabs[0].id;
-        webpageWinId = webpageTabs[0].windowId;
-        if (webpageTabId === currentTabId) {
-            //console.log("I'm in the webpage tab");
+    if (telegramTabs.length > 0) {
+        //console.log("there is a telegram tab");
+        telegramTabId = telegramTabs[0].id;
+        telegramWinId = telegramTabs[0].windowId;
+        if (telegramTabId === currentTabId) {
+            //console.log("I'm in the telegram tab");
             browser.windows.update(previousWin, { focused: true })
             browser.tabs.update(previousTab, { active: true, });
         } else {
-            //console.log("I'm NOT in the webpage tab");
+            //console.log("I'm NOT in the telegram tab");
             previousTab = currentTabId;
             previousWin = currentWinId;
-            browser.windows.update(webpageWinId, { focused: true, });
-            browser.tabs.update(webpageTabId, { active: true, });
+            browser.windows.update(telegramWinId, { focused: true, });
+            browser.tabs.update(telegramTabId, { active: true, });
         }
-        setButtonIcon(webpageTabs[0].favIconUrl);
+        setButtonIcon(telegramTabs[0].favIconUrl);
     } else {
-        //console.log("there is NO webpage tab");
+        //console.log("there is NO telegram tab");
         previousTab = currentTabId;
         createPinnedTab();
     }
 };
 
 function onGot(restoredSettings) {
-    if (restoredSettings.webpageUrl != undefined) {
-        webpageUrlStored = `http://${restoredSettings.webpageUrl}/`;
-        let querying = browser.tabs.query({ url: `*://${restoredSettings.webpageUrl}/*` });
-        querying.then(handleSearch, onError);
+    if (restoredSettings.telegramUrl != undefined) {
+        telegramUrlStored = restoredSettings.telegramUrl;
     } else {
-        browser.runtime.openOptionsPage();
+        telegramUrlStored = 'https://web.telegram.org/';
     };
-
+    let querying = browser.tabs.query({ url: telegramUrlStored });
+    querying.then(handleSearch, onError);
 };
 
 function handleClick(tab) {
     //console.log("*********Button clicked*********");
     currentTabId = tab.id;
     currentWinId = tab.windowId;
-    var gettingStoredSettings = browser.storage.sync.get();
+    var gettingStoredSettings = browser.storage.local.get();
     gettingStoredSettings.then(onGot, onError);
 };
 

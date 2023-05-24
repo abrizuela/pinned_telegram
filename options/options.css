@@ -1,12 +1,4 @@
-form {
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-left: 10px;
-    font-size: medium;
-}
-
-#updatedMessage,
-#reset {
+#updatedMessage, #reset {
     color: #ffffff;
     border-radius: 3px;
 }
