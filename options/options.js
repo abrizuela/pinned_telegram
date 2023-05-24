@@ -4,33 +4,16 @@ const shortcutElem = document.querySelector('#shortcut');
 const resetElem = document.querySelector('#reset')
 const updatedMessage = document.querySelector("#updatedMessage");
 const errorMessage = document.querySelector("#errorMessage");
-const urlWeb = document.querySelector("#web");
-const urlWebk = document.querySelector("#webk");
-const urlWebz = document.querySelector("#webz");
-const urlInputs = document.querySelectorAll("input[name='telegram_url']");
-/* enum */
-const telegramUrl = {
-    WEB: "https://web.telegram.org/k/", //if replace this also do it in function onGot in background.js
-    WEBK: "https://webk.telegram.org/",
-    WEBZ: "https://webz.telegram.org/"
-};
+const webpageUrl = document.querySelector("#webpage");
 
 async function setUrl(restoredSettings) {
-    //console.log(`telegramUrl: ${restoredSettings.telegramUrl}`);
-    switch (restoredSettings.telegramUrl) {
-        case telegramUrl.WEB:
-            urlWeb.checked = true;
-            break;
-        case telegramUrl.WEBK:
-            urlWebk.checked = true;
-            break;
-        case telegramUrl.WEBZ:
-            urlWebz.checked = true;
-            break;
-        default:
-            urlWeb.checked = true;
-            break;
+    //console.log(`webpageUrl: ${restoredSettings.webpageUrl}`);
+    if(restoredSettings.webpageUrl != undefined){
+        webpageUrl.value = restoredSettings.webpageUrl
+    } else {
+        webpageUrl.value = "www.example.com"
     }
+    
 }
 
 /**
@@ -44,15 +27,8 @@ async function updateUI() {
         }
     }
 
-    var gettingStoredSettings = browser.storage.local.get();
+    var gettingStoredSettings = browser.storage.sync.get();
     gettingStoredSettings.then(setUrl);
-}
-
-async function updateUIPageLoaded(){
-    urlWeb.value = telegramUrl.WEB;
-    urlWebk.value = telegramUrl.WEBK;
-    urlWebz.value = telegramUrl.WEBZ;
-    updateUI();
 }
 
 /**
@@ -106,7 +82,7 @@ async function resetShortcut() {
 /**
  * Update the UI when the page loads.
  */
-document.addEventListener('DOMContentLoaded', updateUIPageLoaded);
+document.addEventListener('DOMContentLoaded', updateUI);
 
 /**
  * Handle update and reset button clicks
@@ -115,12 +91,10 @@ shortcutElem.addEventListener('focus', startCapturing);
 shortcutElem.addEventListener('keydown', captureKey);
 shortcutElem.addEventListener('keyup', updateShortcut);
 resetElem.addEventListener('click', resetShortcut);
+webpageUrl.addEventListener('blur', updateWebpageUrl)
 
-urlInputs.forEach(elem => {
-    //console.log(elem);
-    elem.onchange = () => {
-        //console.log(`saving: ${elem.value}`);
-        browser.storage.local.set({ telegramUrl: elem.value });
-        msgUpdated();
-    }
-});
+function updateWebpageUrl() {
+    //console.log(`saving: ${elem.value}`);
+    browser.storage.sync.set({ webpageUrl: webpageUrl.value });
+    msgUpdated();
+};

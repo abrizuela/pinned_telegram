@@ -10,20 +10,16 @@
 
 <body>
     <form>
-        <label>Keyboard shortcut</label>
-        <input id="shortcut" type="text">
+        <label>Webpage's URL: </label>
+        <input id="webpage" type="text" class="inputText">
+    </form>
+    
+    <form>
+        <label>Keyboard shortcut: </label>
+        <input id="shortcut" type="text" class="inputText">
         <input id="reset" type="button" value="Reset">
     </form>
     <div id="errorMessage" class="hidden">Invalid shortcut, please try another one!</div>
-    <form>
-        <h3>Choose the web you want to use</h3>
-        <input type="radio" id="web" name="telegram_url">
-        <label for="web">web.telegram.org</label><br>
-        <input type="radio" id="webk" name="telegram_url">
-        <label for="webk">webk.telegram.org</label><br>
-        <input type="radio" id="webz" name="telegram_url">
-        <label for="webz">webz.telegram.org</label><br>
-    </form>
     <div id="updatedMessage" class="hidden">Settings saved!</div>
 
     <script src="keyboard.js"></script>
